@@ -1585,10 +1585,14 @@ h3 {
 .contact-cta {
   padding: 75px 0;
 
-  background: var(--green);
-  color: var(--white);
-}
+  background:
+    linear-gradient(135deg,
+      #17399e 0%,
+      #2856d7 55%,
+      #5338b8 100%);
 
+  color: #ffffff;
+}
 
 .contact-cta-inner {
   display: flex;
@@ -2066,4 +2070,26 @@ h3 {
     transform: none;
   }
 
+}
+
+.contact-cta .button-light {
+  background: #ffffff;
+  color: #17399e;
+
+  border: 2px solid transparent;
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.16);
+
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease;
+}
+
+.contact-cta .button-light:hover {
+  transform: translateY(-3px);
+
+  background: #07142f;
+  color: #ffffff;
 }
