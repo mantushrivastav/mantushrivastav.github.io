@@ -1,71 +1,259 @@
-const header = document.querySelector(".site-header");
+"use strict";
+
+/* =========================================
+   CURRENT YEAR
+   ========================================= */
+
+const yearElement = document.getElementById("year");
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
+
+
+/* =========================================
+   MOBILE NAVIGATION
+   ========================================= */
+
 const navToggle = document.querySelector(".nav-toggle");
-const navMenu = document.querySelector(".nav-menu");
+const navMenu = document.getElementById("nav-menu");
+
+if (navToggle && navMenu) {
+
+  navToggle.addEventListener("click", () => {
+
+    const isOpen = navMenu.classList.toggle("is-open");
+
+    navToggle.setAttribute(
+      "aria-expanded",
+      String(isOpen)
+    );
+
+    navToggle.setAttribute(
+      "aria-label",
+      isOpen ? "Close navigation" : "Open navigation"
+    );
+
+  });
+
+
+  navMenu.querySelectorAll("a").forEach((link) => {
+
+    link.addEventListener("click", () => {
+
+      navMenu.classList.remove("is-open");
+
+      navToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      navToggle.setAttribute(
+        "aria-label",
+        "Open navigation"
+      );
+
+    });
+
+  });
+
+}
+
+
+/* =========================================
+   SCROLL REVEAL
+   ========================================= */
+
+const revealElements = document.querySelectorAll(".reveal");
+
+if ("IntersectionObserver" in window) {
+
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+
+      entries.forEach((entry) => {
+
+        if (entry.isIntersecting) {
+
+          entry.target.classList.add("visible");
+
+          observer.unobserve(entry.target);
+
+        }
+
+      });
+
+    },
+    {
+      threshold: 0.10,
+      rootMargin: "0px 0px -35px 0px"
+    }
+  );
+
+
+  revealElements.forEach((element) => {
+    revealObserver.observe(element);
+  });
+
+} else {
+
+  revealElements.forEach((element) => {
+    element.classList.add("visible");
+  });
+
+}
+
+
+/* =========================================
+   CONTACT MODAL
+   ========================================= */
+
 const modal = document.getElementById("contact-modal");
-const openButtons = document.querySelectorAll("[data-open-contact]");
-const closeButtons = document.querySelectorAll("[data-close-contact]");
+
+const openContactButtons =
+  document.querySelectorAll("[data-open-contact]");
+
+const closeContactButtons =
+  document.querySelectorAll("[data-close-contact]");
+
+
+function openContactModal() {
+
+  if (!modal) {
+    return;
+  }
+
+  modal.classList.add("is-open");
+
+  modal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  document.body.classList.add("modal-open");
+
+  const closeButton =
+    modal.querySelector(".modal-close");
+
+  closeButton?.focus();
+
+}
+
+
+function closeContactModal() {
+
+  if (!modal) {
+    return;
+  }
+
+  modal.classList.remove("is-open");
+
+  modal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+  document.body.classList.remove("modal-open");
+
+}
+
+
+openContactButtons.forEach((button) => {
+
+  button.addEventListener(
+    "click",
+    openContactModal
+  );
+
+});
+
+
+closeContactButtons.forEach((button) => {
+
+  button.addEventListener(
+    "click",
+    closeContactModal
+  );
+
+});
+
+
+document.addEventListener("keydown", (event) => {
+
+  if (
+    event.key === "Escape" &&
+    modal?.classList.contains("is-open")
+  ) {
+
+    closeContactModal();
+
+  }
+
+});
+
+
+/* =========================================
+   PHONE NUMBER REVEAL
+   ========================================= */
+
 const phoneLink = document.getElementById("phone-link");
 const phoneText = document.getElementById("phone-text");
-let lastFocusedElement = null;
 
-window.addEventListener("scroll", () => {
-  header.classList.toggle("scrolled", window.scrollY > 20);
-});
+let phoneRevealed = false;
 
-navToggle.addEventListener("click", () => {
-  const expanded = navToggle.getAttribute("aria-expanded") === "true";
-  navToggle.setAttribute("aria-expanded", String(!expanded));
-  navMenu.classList.toggle("open");
-});
 
-document.querySelectorAll(".nav-menu a").forEach(link => {
-  link.addEventListener("click", () => {
-    navMenu.classList.remove("open");
-    navToggle.setAttribute("aria-expanded", "false");
-  });
-});
+if (phoneLink && phoneText) {
 
-function openContact() {
-  lastFocusedElement = document.activeElement;
-  modal.classList.add("is-open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-  modal.querySelector(".modal-close").focus();
-}
+  phoneLink.addEventListener("click", (event) => {
 
-function closeContact() {
-  modal.classList.remove("is-open");
-  modal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("modal-open");
-  if (lastFocusedElement) lastFocusedElement.focus();
-}
+    if (!phoneRevealed) {
 
-openButtons.forEach(button => button.addEventListener("click", openContact));
-closeButtons.forEach(button => button.addEventListener("click", closeContact));
+      event.preventDefault();
 
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape" && modal.classList.contains("is-open")) closeContact();
-});
+      const countryCode = "+977";
+      const phoneNumber = "9840031519";
 
-phoneLink.addEventListener("click", event => {
-  if (!phoneLink.dataset.revealed) {
-    event.preventDefault();
-    const parts = ["+977", "984", "003", "1519"];
-    const phone = parts.join(" ");
-    phoneText.textContent = phone;
-    phoneLink.href = "tel:" + parts.join("");
-    phoneLink.dataset.revealed = "true";
-  }
-});
+      phoneText.textContent =
+        `${countryCode} ${phoneNumber}`;
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      observer.unobserve(entry.target);
+      phoneLink.href =
+        `tel:${countryCode}${phoneNumber}`;
+
+      phoneRevealed = true;
+
     }
-  });
-}, { threshold: 0.12 });
 
-document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
-document.getElementById("year").textContent = new Date().getFullYear();
+  });
+
+}
+
+
+/* =========================================
+   CERTIFICATE DROPDOWNS
+
+   Keeps only one certificate open at a time.
+   ========================================= */
+
+const certificateDropdowns =
+  document.querySelectorAll(".certificate-dropdown");
+
+
+certificateDropdowns.forEach((dropdown) => {
+
+  dropdown.addEventListener("toggle", () => {
+
+    if (!dropdown.open) {
+      return;
+    }
+
+    certificateDropdowns.forEach((otherDropdown) => {
+
+      if (otherDropdown !== dropdown) {
+        otherDropdown.removeAttribute("open");
+      }
+
+    });
+
+  });
+
+});
