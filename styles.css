@@ -1622,3 +1622,295 @@ img {
   }
 
 }
+
+/* ==================================================
+   UNIQUE LIVE DEMO BUTTON
+   P-M Interaction Curve Generator
+   ================================================== */
+
+.project-card.project-demo .demo-launch-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+
+  width: 100%;
+  margin-top: auto;
+  padding: 14px 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 14px;
+
+  background:
+    linear-gradient(110deg,
+      #17399e 0%,
+      #285ee8 45%,
+      #6548e8 100%);
+
+  color: #ffffff;
+
+  box-shadow:
+    0 12px 28px rgba(35, 77, 204, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-position 0.4s ease;
+}
+
+
+/* Play icon */
+
+.demo-launch-icon {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: #285ee8;
+
+  font-size: 0.95rem;
+  line-height: 1;
+
+  box-shadow:
+    0 6px 18px rgba(10, 25, 75, 0.25);
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+
+/* Text area */
+
+.demo-launch-content {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+
+  min-width: 0;
+}
+
+
+.demo-launch-content strong {
+  color: #ffffff;
+
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+
+.demo-launch-content small {
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 0.73rem;
+  font-weight: 500;
+}
+
+
+/* External arrow */
+
+.demo-launch-arrow {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+
+  font-size: 1.15rem;
+  font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+
+/* Animated shine */
+
+.demo-launch-shine {
+  position: absolute;
+  z-index: 1;
+  top: -50%;
+  left: -45%;
+
+  width: 28%;
+  height: 200%;
+
+  transform: rotate(22deg);
+
+  background:
+    linear-gradient(to right,
+      transparent,
+      rgba(255, 255, 255, 0.34),
+      transparent);
+
+  animation: demo-button-shine 3.2s ease-in-out infinite;
+
+  pointer-events: none;
+}
+
+
+/* Soft attention pulse */
+
+.project-card.project-demo .demo-launch-button::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -1;
+
+  border-radius: inherit;
+
+  box-shadow:
+    0 0 0 0 rgba(74, 111, 255, 0.42);
+
+  animation: demo-button-pulse 2.2s ease-out infinite;
+}
+
+
+/* Hover effects */
+
+.project-card.project-demo:hover .demo-launch-button {
+  transform: translateY(-3px) scale(1.015);
+
+  box-shadow:
+    0 18px 38px rgba(35, 77, 204, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+
+.project-card.project-demo:hover .demo-launch-icon {
+  transform: scale(1.08) rotate(-5deg);
+
+  background: #55e691;
+  color: #102d68;
+}
+
+
+.project-card.project-demo:hover .demo-launch-arrow {
+  transform: translate(3px, -3px);
+
+  background: rgba(255, 255, 255, 0.24);
+}
+
+
+/* Keyboard accessibility */
+
+.project-card.project-demo:focus-visible .demo-launch-button {
+  outline: 3px solid rgba(47, 94, 235, 0.40);
+  outline-offset: 5px;
+}
+
+
+/* Animations */
+
+@keyframes demo-button-shine {
+
+  0% {
+    left: -45%;
+  }
+
+  55%,
+  100% {
+    left: 125%;
+  }
+
+}
+
+
+@keyframes demo-button-pulse {
+
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(74, 111, 255, 0.42);
+  }
+
+  70% {
+    box-shadow:
+      0 0 0 12px rgba(74, 111, 255, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(74, 111, 255, 0);
+  }
+
+}
+
+
+/* Mobile adjustment */
+
+@media (max-width: 600px) {
+
+  .project-card.project-demo .demo-launch-button {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .demo-launch-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .demo-launch-content strong {
+    font-size: 0.88rem;
+  }
+
+  .demo-launch-content small {
+    font-size: 0.68rem;
+  }
+
+  .demo-launch-arrow {
+    width: 31px;
+    height: 31px;
+  }
+
+}
+
+
+/* Respect reduced-motion settings */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .demo-launch-shine,
+  .project-card.project-demo .demo-launch-button::after {
+    animation: none;
+  }
+
+  .project-card.project-demo .demo-launch-button,
+  .demo-launch-icon,
+  .demo-launch-arrow {
+    transition: none;
+  }
+
+}
